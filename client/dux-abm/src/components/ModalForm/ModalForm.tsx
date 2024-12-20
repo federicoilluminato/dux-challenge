@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { InputText } from "primereact/inputtext";
 import SelectInput from "../SelectInput/SelectInput";
 import { User } from '../DataTable/DataTable';
-import { createUser, updateUser } from "@/services/userService";
+import { createUser, deleteUser, updateUser } from "@/services/userService";
 
 interface ModalFormProps {
     visible: boolean;
@@ -17,7 +17,7 @@ const ModalForm: React.FC<ModalFormProps> = ({ visible, onHide, onEdit, setOnEdi
     const [id, setId] = useState<string | null >(null);
     const [nombre, setNombre] = useState<string>('');
     const [estado, setEstado] = useState<string>('');
-    const [sector, setSector] = useState<number | null>(null);
+    const [sector, setSector] = useState<number | null | string>(null);
     
     const hideModal = () => {
         setOnEdit(false);
@@ -29,7 +29,7 @@ const ModalForm: React.FC<ModalFormProps> = ({ visible, onHide, onEdit, setOnEdi
             setId(onEdit.id);
             setNombre(onEdit.usuario);
             setEstado(onEdit.estado);
-            setSector(Number(onEdit.sector));
+            setSector(onEdit.sector);
         } else {
             // resetea el form cuando onEdit es false (cuando cierro el modal, o abro para crear)
             setId(null);
@@ -52,11 +52,17 @@ const ModalForm: React.FC<ModalFormProps> = ({ visible, onHide, onEdit, setOnEdi
         hideModal();
     };
 
+    const handleDelete = async () => {
+        deleteUser(id!);
+        hideModal();
+    } 
+
 
     const footerContent = (
         <div className="flex justify-content-center p-4 gap-3">
             <Button label="Confirmar" icon="pi pi-check" onClick={() => handleConfirm()} autoFocus />
             <Button label="Cancelar" icon="pi pi-times" onClick={() => hideModal()} className="p-button-text"/>
+            {onEdit && <Button icon="pi pi-trash" severity="danger" onClick={() => handleDelete()} className="p-button-text"/>}
         </div>
     );
 

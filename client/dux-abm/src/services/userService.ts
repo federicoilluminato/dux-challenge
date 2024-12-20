@@ -69,8 +69,8 @@ export const updateUser = async (sector: number, id: string, usuario: string, es
     return data;
 };
 
-export const deleteUser = async (sector: number, id: number) => {
-    await fetch(`${API_URL}/${id}?sector=${sector}`, {
+export const deleteUser = async (id: string) => {
+    await fetch(`${API_URL}/${id}`, {
         method: 'DELETE',
     });
 };

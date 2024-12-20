@@ -8,17 +8,15 @@ interface SelectInputProps {
   value? : (string | number | null);
 }
 
-const SelectInput: React.FC<SelectInputProps> = ({ values, placeholder, setSelected}) => {
-   const [value, setValue] = useState<string | null>(null);
-   const handleChange = (value: string) => {
-    setSelected(value);
-    setValue(value);
-    console.log('value', value)
+const SelectInput: React.FC<SelectInputProps> = ({ values, placeholder, setSelected, value}) => {
+
+   const handleChange = (selected: string) => {
+    setSelected(selected);
   };
 
   return (
     <Dropdown
-      value={value}
+      value={value?.toString()}
       onChange={(e) => handleChange(e.value)} 
       options={values} optionLabel="name" 
       showClear 
